@@ -22,13 +22,15 @@ const GameBoard = () => {
 
     const boardArray = () => {
         const boardData = []
-        for(let i = 0; i < dimension.width; i++){
+        for(let i = 0; i < dimension.height; i++){
             boardData.push([])
-            for(let j = 0; j < dimension.height; j++) {
+            for(let j = 0; j < dimension.width; j++) {
                 boardData[i][j] = {
                     x: i,
                     y: j,
                     isMine: false,
+                    isRevealed: false,
+                    isFlag: false,
                     neighbors: 0,
                 }
             }
@@ -46,116 +48,110 @@ const GameBoard = () => {
                 const bombX = Math.floor(Math.random() * 10);
                 const bombY = Math.floor(Math.random() * 10);
                 if(boardData[bombX][bombY].isMine) {
-                    console.log(
-                        'duplicate!'
-                    )
                 }
                 if(!boardData[bombX][bombY].isMine) {
-                    
-                    console.log(bombX, bombY)
                     boardData[bombX][bombY].isMine = true;
                     minesPlanted++
                 }
             }
 
-            console.log('dood')
-            
-        console.log(boardData)
         return boardData
         // generate number of mines to randomly place, keep trying 
     }
 
     const getNeighbors = (boardData) => {
-
-        // const neighbors = []
-        // console.log(boardData)
-        console.log('neighbors')
         for(let i = 0; i < dimension.width; i++){
-            
             for(let j = 0; j < dimension.height; j++) {
-                // if(boardData[i + 1][j].x > dimension.width || boardData[i - 1][j].x < 0) {
-                //     console.log('PROBLEM')
-                //     continue
-                // }
-                // if(boardData[i][j + 1].y > dimension.width || boardData[i][j - 1].y< 0) {
-                //     console.log('PROBLEM')
-                //     continue
-                // }
-
-                // if(boardData[i+1][j].isMine) {
-                //     console.log(boardData[i][j])
-                // }
                 if(boardData[i][j].isMine) {
                     // console.log(boardData[i][j].x + 1)
-                    if((boardData[i][j].x + 1) >= dimension.height){ // issue: it skips completely if the bottom or top is wrong, should still allow one if correct
-                        console.log(`x: ${boardData[i][j].x}`)
-                        boardData[(i-1)][j].neighbors += 1
-                        continue;
-
-                    }
-
-                    if((boardData[i][j].x - 1) < 0){
+                    if((boardData[i][j].x + 1) < dimension.height){ // top
                         boardData[(i+1)][j].neighbors += 1
-                        continue
-                    }
-                    if(((boardData[i][j].y + 1) >= dimension.width)) {
-                        console.log(`y: ${boardData[i][j].y}`)
-                        boardData[i][(j-1)].neighbors += 1
-                        continue
                     }
 
-                    if(((boardData[i][j].y - 1) < 0)) {
+                    if((boardData[i][j].x - 1) >= 0){ // bottom
+                        boardData[(i-1)][j].neighbors += 1
+                    }
+                    if(((boardData[i][j].y + 1) < dimension.width)) { //right
                         boardData[i][(j+1)].neighbors += 1
-                        continue
                     }
 
+                    if(((boardData[i][j].y - 1) >= 0)) { // left
+                        boardData[i][(j-1)].neighbors += 1
+                    }
 
+                    if(((boardData[i][j].y - 1) >= 0) && ((boardData[i][j].x - 1) >= 0)) { // top left
+                        boardData[i-1][(j-1)].neighbors += 1
+                    }
 
-                    boardData[(i+1)][j].neighbors += 1
-                    boardData[(i-1)][j].neighbors += 1
-                    boardData[i][(j+1)].neighbors += 1
-                    boardData[i][(j-1)].neighbors += 1
-                    console.log('hello')
+                    if(((boardData[i][j].y + 1) < dimension.width) && ((boardData[i][j].x + 1) < dimension.height)) { // bottom right
+                        boardData[i+1][(j+1)].neighbors += 1
+                    }
 
-                    // issue : also counting the same spot twice
+                    if(((boardData[i][j].y + 1) < dimension.width) && ((boardData[i][j].x - 1) >= 0)) { // top right
+                        boardData[i-1][(j+1)].neighbors += 1
+                    }
 
-                    // console.log(, i)
-                    // if((boardData[(i+1)][(j)].x === undefined)  || (boardData[(i-1)][(j)].x === undefined)){
-                    //     console.log("HAAHAH")
-                    //     continue
-                    // } else {
-                    //     boardData[(i)][(j+1)].neighbors += 1
-                    //     boardData[(i)][(j-1)].neighbors += 1
-                    // }
-
-                    // boardData[(i)][(j+1)].neighbors += 1
-                    // boardData[(i)][(j-1)].neighbors += 1
-                    // boardData[(i-1)][(j-1)].neighbors += 1
-                    // boardData[(i+1)][(j+1)].neighbors += 1
+                    if(((boardData[i][j].y - 1) >= 0) && ((boardData[i][j].x + 1) < dimension.height)) { // bottom right
+                        boardData[i+1][(j-1)].neighbors += 1
+                    }
                 }
-                // console.log(boardData[i][j])
-                
             }
         }
-        // console.log(boardData)
         return boardData
     }
-// if(boardData[i+1][j].isMine || boardData[i-1][j].isMine || boardData[i][j+1].isMine || boardData[i][j-1].isMine || boardData[i-1][j-1].isMine || boardData[i+1][j+1].isMine || boardData[i+1][j-1].isMine || boardData[i-1][j+1].isMine) {
-                //     boardData[i][j].neighbors += 1
-                // }
-    // const traverseDom = (boardspot)
+    
+
+    const floodFill = (i, iShift, j, jShift, oldBoard) => {
+        const newBoard = [...oldBoard]
+
+        if(oldBoard[i][j].isMine) {
+            console.log('GAMEOVER')
+            newBoard.map((row) => {return row.map((col) => {
+                console.log('bruh')
+                return col.isRevealed = true;
+            })})
+            return setBoardData(newBoard);
+        } 
+
+        if(newBoard[i][j].neighbors === 0){
+                // error to fix: I think i need to check for the diagonals in the initial out of bounds check
+            if ((newBoard[i][j].x + iShift) < 0 || (newBoard[i][j].x + iShift) >= dimension.width || (newBoard[i][j].y + jShift) < 0 || ((newBoard[i][j].y + jShift) >= dimension.height)) { // not in range
+                return
+            }
+            if(newBoard[i+iShift][j+jShift].neighbors) { 
+                newBoard[i+iShift][j+jShift].isRevealed = true;
+                return;
+            }
+            if(newBoard[i+iShift][j+jShift].isMine) { // bomb
+                return;
+            }
+            if (newBoard[i+iShift][j+jShift].isRevealed) { // already revealed, no need to check again
+                return;
+            }
+            newBoard[i+iShift][j+jShift].isRevealed = true;
+            setBoardData(newBoard);
+            i = i+iShift;
+            j = j+jShift;
+            floodFill(i, 0, j, 1, newBoard);
+            floodFill(i, 0, j, -1, newBoard);
+            floodFill(i, 1, j, 0, newBoard);
+            floodFill(i, -1, j, 0, newBoard);
+            floodFill(i, 1, j, 1, newBoard);
+            floodFill(i, -1, j, -1, newBoard);
+            floodFill(i, 1, j, 1, newBoard);
+            floodFill(i, -1, j, -1, newBoard);      
+        }
+
+        newBoard[i][j].isRevealed = true;
+        return setBoardData(newBoard);
+    }
 
     return(
         <div className="game-cont">
-            {/* <button onClick={onPress}></button> */}
-            {boardData.map((row) => {return row.map((col) => {
-                
-                // return (
+            {boardData.map((row) => {return row.map((col) => {   
                         return(
-                            // <div key={col.x + col.y} class='cell'>{col.x}{col.y}</div>
-                            <Cell x={col.x} y={col.y} isMine={col.isMine} neighbors={col.neighbors} key={col.x + col.y}/>
+                            <Cell x={col.x} y={col.y} isMine={col.isMine} neighbors={col.neighbors} isRevealed={col.isRevealed} key={col.x + col.y} testFunc={() => floodFill(col.x, 0, col.y, 0, boardData)}/>
                         )
-                // )
                     })}
                 )}
         </div>

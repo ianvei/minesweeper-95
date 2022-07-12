@@ -25,7 +25,11 @@ code {
 }
 
 .cell {
+  display: grid;
   border: 1px solid black;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
 }
 
 .cell:hover {
@@ -39,4 +43,8 @@ code {
   min-height: 100vh;
   align-items: center;
   justify-content: center;
+}
+
+.revealed {
+  background-color: aquamarine;
 }
