@@ -15,9 +15,10 @@ const Cell = ( { x, y, isMine, neighbors, testFunc, isRevealed }) => {
         setFlag(flag = !flag)
         console.log(flag)
         console.log(isRevealed)
+        console.log(neighbors)
     }
     return (
-        <div className={isRevealed? 'cell revealed' : 'cell' } onClick={testFunc} onContextMenu={onContextMenu}>{isMine? 'mine': neighbors? neighbors:''}</div>
+        <div className={isRevealed? 'cell revealed' : 'cell' } onClick={testFunc} onContextMenu={onContextMenu}>{flag? 'flag' : isRevealed&&isMine? 'mine' : isRevealed&&neighbors? neighbors: '' }</div>
         // {flag? 'flag' : isMine ? 'mine' : isRevealed? "revealed ": neighbors }
     )
 }

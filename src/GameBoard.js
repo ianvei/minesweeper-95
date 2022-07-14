@@ -138,8 +138,8 @@ const GameBoard = () => {
             floodFill(i, -1, j, 0, newBoard);
             floodFill(i, 1, j, 1, newBoard);
             floodFill(i, -1, j, -1, newBoard);
-            floodFill(i, 1, j, 1, newBoard);
-            floodFill(i, -1, j, -1, newBoard);      
+            floodFill(i, 1, j, -1, newBoard);
+            floodFill(i, -1, j, 1, newBoard);      
         }
 
         newBoard[i][j].isRevealed = true;
