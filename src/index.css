@@ -22,6 +22,7 @@ code {
   height: 500px;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
+  font-family: 'VT323';
 }
 
 .cell {
@@ -30,10 +31,22 @@ code {
   align-items: center;
   justify-content: center;
   font-weight: 700;
+  background-color: white;
+  transition: background-color 0.3s ease-out;
+
+  font-size: 30px;
+  background: #C3C3C3;
+  box-shadow: inset -2px -2px 0px #262626, inset 2px 2px 0px #F0F0F0, inset -4px -4px 0px #7E7E7E;
+
+
+
 }
 
 .cell:hover {
-  background-color: paleturquoise;
+  background: #C3C3C3;
+    box-shadow: none;
+    /* box-shadow: inset -2px -2px 0px #262626, inset 2px 2px 0px #F0F0F0, inset -4px -4px 0px #7E7E7E; */
+    border: 1px dashed #000000;
 }
 
 
@@ -43,8 +56,77 @@ code {
   min-height: 100vh;
   align-items: center;
   justify-content: center;
+  background-color: #018281;  
 }
 
 .revealed {
-  background-color: aquamarine;
+  box-shadow: none;
+  border: 1px dashed #000000;
+  background: #a6a6a6;
+  /* background-color: aquamarine; */
+  
 }
+
+
+.neighbor1 {
+  color: blue
+}
+
+.neighbor2 {
+  color: green
+}
+
+.neighbor3 {
+  color: red
+}
+
+.neighbor3 {
+  color: purple
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 550px;
+  height: 650px;
+  background: #C3C3C3;
+  box-shadow: inset 6px 6px 0px #F0F0F0, inset -6px -6px 0px #7E7E7E;
+}
+
+
+.score {
+  display: inline-flex;
+  width: 500px;
+  height: 79px;
+  align-items: center;
+  justify-content: space-around;
+  background: #C3C3C3;
+  box-shadow: inset -6px -6px 0px #F0F0F0, inset 6px 6px 0px #7E7E7E;
+  font-family: 'VT323';
+  font-weight: 900;
+}
+
+.flags, .timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: red;
+  font-size: 60px;
+  background-color: black;
+  width: 90px;
+  height: 54px;
+  box-shadow: -1px -1px 0px 1px #7E7E7E, 1px 1px 0px 1px #FFFFFF;
+}
+
+.smile {
+  width: 56px;
+  height: 56px;
+  background: #C3C3C3;
+  box-shadow: inset -2px -2px 0px #262626, inset 2px 2px 0px #F0F0F0, inset -4px -4px 0px #7E7E7E;
+}
+/* .cell {
+  background-color: white;
+} */
