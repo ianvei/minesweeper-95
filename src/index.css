@@ -133,8 +133,31 @@ code {
   height: 56px;
   background: #C3C3C3;
   box-shadow: inset -2px -2px 0px #262626, inset 2px 2px 0px #F0F0F0, inset -4px -4px 0px #7E7E7E;
+  transition: box-shadow 0.2s ease-out;
+  border: 1px solid black;
 }
 
+.smile:hover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  box-shadow: none;
+  /* border: 1px dashed #000000; */
+  background: #C3C3C3;
+}
+
+.smile > img:hover {
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+  width: 43px;
+  height: 43px;
+  /* box-shadow: none; */
+  /* border: 1px dashed #000000; */
+  /* background: #C3C3C3; */
+}
 
 .cell > img {
   height: 30px;

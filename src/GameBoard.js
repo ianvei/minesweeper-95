@@ -28,43 +28,25 @@ const GameBoard = () => {
     
    
     useEffect(() => {
-        console.log(`am I running? ${running}`)
-        console.log('effect');
-        let interval;
-        if (running) {
-        interval = setInterval(() => {
-            setTime((prevTime) => prevTime + 1);
-        }, 1000);
-        } else if (!running) {
-        // interval = 0
-        clearInterval(setTime(0));
+        if(running) {
+            const timer = setInterval(() => {
+                setTime(time + 1);
+            }, 1000);
+            
+            return () => {
+                clearInterval(timer)
+            }
         }
-        return () => clearInterval(setTime(0));
-    }, [running]);
 
-    // useEffect(() => {
-    //     console.log('timerq')
-    //     console.log(startTime)
-    //     // if(endGame) {
-    //     //     setTimer(0);
-    //         // setTimeout(() => setEndGame(0), 200)
-    //     // }
-    //     if (stopTime) {
-    //         setTimer(timer)
-    //     } 
+        
+    }, [running, time]);
 
-    //     if(startTime){
-    //         setTimeout(() => setTimer(timer + 1), 1000);
-    //     }
-    //     // setTimeout(() => setTimer(timer + 1), 1000);
-    // }, [timer, startTime, stopTime])
 
     const startGame = () => {
-        setBegin(true)
-        if (begin) {
-            setRunning(true);
+        // start the game
+        if(!running) {
+            setRunning(true)
         }
-        console.log('STARTING GAME')
         
     }
     const startTimer = () => {
@@ -170,8 +152,7 @@ const GameBoard = () => {
         // setStartTime(true)
         console.log(startTime);
         if(oldBoard[i][j].isMine) {
-            setRunning(false);
-            setBegin(false);
+            
             console.log('GAMEOVER')
             newBoard.map((row) => {return row.map((col) => {
                 // setRevealedCells(revealedCells => revealedCells + 1)
@@ -179,9 +160,9 @@ const GameBoard = () => {
                 return col.isRevealed = true;
             })})
             // setStopTime(true)
-            // setFinalScore(timer + 1)
-            // setLose(true);
-            // setRunning(false);
+            setFinalScore(timer + 1)
+            setLose(true);
+            setRunning(false);
             // setBegin(false); 
             
             return setBoardData(newBoard);
@@ -257,10 +238,10 @@ const GameBoard = () => {
             })})
         
         if(((dimension.width * dimension.height ) - count) === dimension.mines) {
-            console.log(`it took ${timer} seconds to win! congratulations!`)
+            console.log(`it took ${time} seconds to win! congratulations!`)
             setStopTime(true);
             setWin(true);
-            setFinalScore(timer + 1);
+            setFinalScore(time + 1);
         }
 
         console.log(count)
@@ -268,30 +249,38 @@ const GameBoard = () => {
 
     const resetGame = () => {
         // setTimer(0)
+        if(running || lose) {
+            stopTimer()
+            setReset(true);
+            setBoardData([])
+            
+            setStartTime(false)
+            setRevealedCells(0)
+            setFlags(0)
         
-        stopTimer()
-        setReset(true);
-        setBoardData([])
+            setFinalScore(0)
+            // setStopTime(false)
+            setWin(false)
+            setLose(false)
+            setTimer(0)
+            setEndGame(true);
+            setTime(0)
+            setRunning(false);
+
+
+            setStopTime(false);
+            setWin(false);
+            setFinalScore(0);
+        }
         
-        setStartTime(false)
-        setRevealedCells(0)
-        setFlags(0)
-        setRunning(false);
-        setFinalScore(0)
-        // setStopTime(false)
-        setWin(0)
-        setLose(0)
-        setTimer(0)
-        setEndGame(true);
-        return setBegin(false);
     }
 
     return(
         <div className="main">
-            <button onClick={resetGame}></button>
+            {/* <button onClick={resetGame}></button> */}
             <div className="score">
                 <div className="flags">{flags}</div>
-                <div className='smile'>
+                <div className='smile' onClick={resetGame}>
                     <img src={lose? deathImg : win? winImg : neutralImg} alt=""/>
                 </div>
                 <div className="timer">{stopTime? finalScore: time}</div>
