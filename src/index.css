@@ -23,6 +23,7 @@ code {
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
   font-family: 'VT323';
+  border: 1px solid black;
 }
 
 .cell {
@@ -33,7 +34,8 @@ code {
   font-weight: 700;
   background-color: white;
   transition: background-color 0.3s ease-out;
-
+  transition: box-shadow 0.2s ease-out;
+  cursor: pointer;
   font-size: 30px;
   background: #C3C3C3;
   box-shadow: inset -2px -2px 0px #262626, inset 2px 2px 0px #F0F0F0, inset -4px -4px 0px #7E7E7E;
@@ -44,9 +46,9 @@ code {
 
 .cell:hover {
   background: #C3C3C3;
-    box-shadow: none;
-    /* box-shadow: inset -2px -2px 0px #262626, inset 2px 2px 0px #F0F0F0, inset -4px -4px 0px #7E7E7E; */
-    border: 1px dashed #000000;
+  box-shadow: none;
+  /* box-shadow: inset -2px -2px 0px #262626, inset 2px 2px 0px #F0F0F0, inset -4px -4px 0px #7E7E7E; */
+  /* border: 1px dashed #000000; */
 }
 
 
@@ -63,6 +65,7 @@ code {
   box-shadow: none;
   border: 1px dashed #000000;
   background: #a6a6a6;
+  cursor: auto;
   /* background-color: aquamarine; */
   
 }
@@ -94,6 +97,7 @@ code {
   height: 650px;
   background: #C3C3C3;
   box-shadow: inset 6px 6px 0px #F0F0F0, inset -6px -6px 0px #7E7E7E;
+  /* border: 1px solid black; */
 }
 
 
@@ -122,10 +126,24 @@ code {
 }
 
 .smile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 56px;
   height: 56px;
   background: #C3C3C3;
   box-shadow: inset -2px -2px 0px #262626, inset 2px 2px 0px #F0F0F0, inset -4px -4px 0px #7E7E7E;
+}
+
+
+.cell > img {
+  height: 30px;
+  width: 30px;
+}
+
+.smile > img {
+  height: 47px;
+  width: 47px;
 }
 /* .cell {
   background-color: white;

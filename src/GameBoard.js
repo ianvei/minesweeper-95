@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Cell from './Cell';
+import deathImg from './images/death.png';
+import neutralImg from './images/smile.png';
+import winImg from './images/win.png'
 
 const GameBoard = () => {
     const [dimension] = useState({
@@ -8,32 +11,78 @@ const GameBoard = () => {
         mines: 10,
     })
     const [boardData, setBoardData] = useState([])
+    const [startTime, setStartTime] = useState(false)
     const [revealedCells, setRevealedCells] = useState(0);
+    const [flags, setFlags] = useState(0);
     const [timer, setTimer] = useState(0);
     const [finalScore, setFinalScore] = useState(0);
     const [stopTime, setStopTime] = useState(false)
+    const [win, setWin] = useState(false)
+    const [lose, setLose] = useState(false)
+    const [reset, setReset] = useState(false)
+    const [endGame, setEndGame] = useState(false);
 
+    const [time, setTime] = useState(0);
+    const [running, setRunning] = useState(false);
+    const [begin, setBegin] = useState(false);
+    
+   
     useEffect(() => {
-
-        if (stopTime) {
-            setTimer(timer)
-        } else {
-            setTimeout(() => setTimer(timer + 1), 1000);
+        console.log(`am I running? ${running}`)
+        console.log('effect');
+        let interval;
+        if (running) {
+        interval = setInterval(() => {
+            setTime((prevTime) => prevTime + 1);
+        }, 1000);
+        } else if (!running) {
+        // interval = 0
+        clearInterval(setTime(0));
         }
+        return () => clearInterval(setTime(0));
+    }, [running]);
+
+    // useEffect(() => {
+    //     console.log('timerq')
+    //     console.log(startTime)
+    //     // if(endGame) {
+    //     //     setTimer(0);
+    //         // setTimeout(() => setEndGame(0), 200)
+    //     // }
+    //     if (stopTime) {
+    //         setTimer(timer)
+    //     } 
+
+    //     if(startTime){
+    //         setTimeout(() => setTimer(timer + 1), 1000);
+    //     }
+    //     // setTimeout(() => setTimer(timer + 1), 1000);
+    // }, [timer, startTime, stopTime])
+
+    const startGame = () => {
+        setBegin(true)
+        if (begin) {
+            setRunning(true);
+        }
+        console.log('STARTING GAME')
         
-        // update about every second
-    },[timer])
+    }
+    const startTimer = () => {
+        setInterval(() => {
+            setTimer(timer => timer + 1)
+        }, 1000)
+    }
+
+    const stopTimer = () => {
+        clearInterval(setTimer(0))
+        // document.querySelector('#counter').remove()
+    }
 
     useEffect(() => {
         setBoardData(boardArray())
-        // generateMines()
         console.log('mounted')
-    }, [])
-
-    // useEffect(() => {
-    //     console.log('board data changed!')
-    //     generateMines()
-    // }, [boardData])
+        setReset(false)
+    }, [reset])
 
     const boardArray = () => {
         const boardData = []
@@ -118,13 +167,23 @@ const GameBoard = () => {
 
     const floodFill = (i, iShift, j, jShift, oldBoard) => {
         const newBoard = [...oldBoard]
-
+        // setStartTime(true)
+        console.log(startTime);
         if(oldBoard[i][j].isMine) {
+            setRunning(false);
+            setBegin(false);
             console.log('GAMEOVER')
             newBoard.map((row) => {return row.map((col) => {
                 // setRevealedCells(revealedCells => revealedCells + 1)
+                col.isFlag = false;
                 return col.isRevealed = true;
             })})
+            // setStopTime(true)
+            // setFinalScore(timer + 1)
+            // setLose(true);
+            // setRunning(false);
+            // setBegin(false); 
+            
             return setBoardData(newBoard);
         } 
 
@@ -149,7 +208,8 @@ const GameBoard = () => {
             setBoardData(newBoard);
             i = i+iShift;
             j = j+jShift;
-
+            
+            setBegin(true);
             setTimeout(() => floodFill(i, 0, j, 1, newBoard), 30);
             setTimeout(() => floodFill(i, 0, j, -1, newBoard), 30);
             setTimeout(() => floodFill(i, 1, j, 0, newBoard), 30);
@@ -157,36 +217,12 @@ const GameBoard = () => {
             setTimeout(() => floodFill(i, 1, j, 1, newBoard), 30);
             setTimeout(() => floodFill(i, -1, j, -1, newBoard), 30);
             setTimeout(() => floodFill(i, 1, j, -1, newBoard), 30);
-            setTimeout(() => floodFill(i, -1, j, 1, newBoard), 30);
-
-
-
-
-
-            // floodFill(i, 0, j, 1, newBoard);
-            // floodFill(i, 0, j, -1, newBoard);
-            // floodFill(i, 1, j, 0, newBoard);
-            // floodFill(i, -1, j, 0, newBoard);
-            // floodFill(i, 1, j, 1, newBoard);
-            // floodFill(i, -1, j, -1, newBoard);
-            // floodFill(i, 1, j, -1, newBoard);
-            // floodFill(i, -1, j, 1, newBoard);      
+            setTimeout(() => floodFill(i, -1, j, 1, newBoard), 30);    
         }
 
         newBoard[i][j].isRevealed = true;
-        // setRevealedCells(oldRevealedCells => oldRevealedCells + 1)
-
-        
-        // newBoard.map((row) => {return row.map((col) => {
-        //     if(col.isRevealed) {
-        //         setRevealedCells(revealedCells => revealedCells + 1)
-        //     }
-        // })})
-
-        
-
         checkWin(newBoard);
-        // console.log(`revealed cells: ${revealedCells}`)
+        setStartTime(true);
         return setBoardData(newBoard);
     }
 
@@ -197,31 +233,22 @@ const GameBoard = () => {
         col.isFlag = !col.isFlag;
 
         newBoard.map((row) => {return row.map((col) => {
+            if(col.isFlag) {
+                flagCount += 1
+                
+            }
             if (col.flag && col.isMine) {
                 flagCount += 1;
             }     
         })})
 
-        // if (flagCount === 10) {
-        //     console.log('you win!')
-        //     newBoard.map((row) => {return row.map((col) => {
-        //         col.isRevealed = true;
-        //     })})
-        // }
-        // newBoard.map((row) => {return row.map((col) => {
-        //     if(col.isRevealed) {
-        //         setRevealedCells(revealedCells => revealedCells + 1)
-        //     }
-        // })})
         console.log(revealedCells)
+        setFlags(flagCount);
         checkWin(newBoard);
         return setBoardData(newBoard);
     }
 
     const checkWin = (newBoard) => {
-        // if(((dimension.width * dimension.height ) - revealedCells) === dimension.mines) {
-        //     console.log('you win!')
-        // }
         let count = 0
         newBoard.map((row) => {return row.map((col) => {
                 if(col.isRevealed) {
@@ -231,26 +258,48 @@ const GameBoard = () => {
         
         if(((dimension.width * dimension.height ) - count) === dimension.mines) {
             console.log(`it took ${timer} seconds to win! congratulations!`)
-            setStopTime(true)
-            setFinalScore(timer + 1)
+            setStopTime(true);
+            setWin(true);
+            setFinalScore(timer + 1);
         }
 
         console.log(count)
     }
 
+    const resetGame = () => {
+        // setTimer(0)
+        
+        stopTimer()
+        setReset(true);
+        setBoardData([])
+        
+        setStartTime(false)
+        setRevealedCells(0)
+        setFlags(0)
+        setRunning(false);
+        setFinalScore(0)
+        // setStopTime(false)
+        setWin(0)
+        setLose(0)
+        setTimer(0)
+        setEndGame(true);
+        return setBegin(false);
+    }
+
     return(
         <div className="main">
-            {/* <div className="timer">{timer}</div>
-            <div className="score">{stopTime? finalScore : ''}</div> */}
+            <button onClick={resetGame}></button>
             <div className="score">
-                <div className="flags">10</div>
-                <div className="smile"></div>
-                <div className="timer">{stopTime? finalScore: timer}</div>
+                <div className="flags">{flags}</div>
+                <div className='smile'>
+                    <img src={lose? deathImg : win? winImg : neutralImg} alt=""/>
+                </div>
+                <div className="timer">{stopTime? finalScore: time}</div>
             </div>
-            <div className="game-cont">
+            <div className="game-cont" style={{ pointerEvents: win || lose ? 'none' : 'auto' }}>
             {boardData.map((row) => {return row.map((col) => {   
                         return(
-                            <Cell x={col.x} y={col.y} isMine={col.isMine} flag={col.isFlag} contextfunc={(e) => contextFunc(col, boardData, e)}neighbors={col.neighbors} isRevealed={col.isRevealed} key={col.x + col.y} testFunc={() => floodFill(col.x, 0, col.y, 0, boardData)}/>
+                            <Cell win={win} startGame={() => startGame()} x={col.x} y={col.y} isMine={col.isMine} flag={col.isFlag} contextfunc={(e) => contextFunc(col, boardData, e)}neighbors={col.neighbors} isRevealed={col.isRevealed} key={col.x + col.y} testFunc={() => floodFill(col.x, 0, col.y, 0, boardData)}/>
                         )
                     })}
                 )}
