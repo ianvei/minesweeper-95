@@ -87,9 +87,21 @@ code {
   color: red
 }
 
-.neighbor3 {
+.neighbor4 {
   color: purple
 }
+
+.neighbor5 {
+  color: maroon
+}
+
+.neighbor6 {
+  color: turquoise
+}
+
+/* .neighbor7 {
+  color: purple
+} */
 
 .main {
   display: flex;
