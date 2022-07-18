@@ -3,6 +3,7 @@ import Cell from './Cell';
 import deathImg from './images/death.png';
 import neutralImg from './images/smile.png';
 import winImg from './images/win.png'
+import { Link } from 'react-router-dom';
 
 const GameBoard = () => {
     const [dimension] = useState({
@@ -276,7 +277,8 @@ const GameBoard = () => {
     }
 
     return(
-        <div className="main">
+        <div className="game-screen">
+            <div className="main">
             {/* <button onClick={resetGame}></button> */}
             <div className="score">
                 <div className="flags">{flags}</div>
@@ -292,8 +294,12 @@ const GameBoard = () => {
                         )
                     })}
                 )}
+            </div>
+            </div>
+
+            <button><Link to="/leaderboard">Leaderboard</Link></button>
         </div>
-        </div>
+        
         
     )
     
