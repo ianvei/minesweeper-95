@@ -4,7 +4,12 @@ import deathImg from './images/death.png';
 import neutralImg from './images/smile.png';
 import winImg from './images/win.png'
 import { Link } from 'react-router-dom';
-
+import { FirebaseError } from 'firebase/app'
+import firebase from 'firebase/compat/app'; 
+import 'firebase/compat/firestore';
+import 'firebase/compat/auth';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
 const GameBoard = () => {
     const [dimension] = useState({
         width: 10,
@@ -27,7 +32,8 @@ const GameBoard = () => {
     const [running, setRunning] = useState(false);
     const [begin, setBegin] = useState(false);
     
-   
+    const auth = firebase.auth()
+    
     useEffect(() => {
         if(running) {
             const timer = setInterval(() => {
@@ -298,6 +304,7 @@ const GameBoard = () => {
             </div>
 
             <button><Link to="/leaderboard">Leaderboard</Link></button>
+            <button onClick={() => auth.signOut()}>Log out</button>
         </div>
         
         
