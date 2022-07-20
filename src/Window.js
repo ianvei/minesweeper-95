@@ -6,13 +6,13 @@ const Window = ( { contentComponent, nameOfClass, componentTitle } ) => {
 
     return (
         <div className={`window-container ${nameOfClass}`}>
-            <div class="window-header"> 
-                <div class="ls">
+            <div className="window-header"> 
+                <div className="ls">
                     <p className='title'>{componentTitle}</p>
                 </div>
-                <img src={menuImg} alt="minimize maximize close button" class="window-buttons" />
+                <img src={menuImg} alt="minimize maximize close button" className="window-buttons" />
             </div>
-            <div class="window-main">
+            <div className="window-main">
                 {contentComponent}
             </div>
         </div>

@@ -321,3 +321,12 @@ code {
   align-items: center;
   gap: 200px
 }
+
+.leaderboardcont {
+  height: 600px;
+}
+
+.window-main > p {
+  font-size: 30px;
+  margin: 15px 0px;
+}

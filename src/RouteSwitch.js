@@ -48,7 +48,7 @@ function RouteSwitch() {
         <BrowserRouter>
           <Routes>
               <Route path='/' element={user? <GameBoard />: <LogIn />} />
-              <Route path='/leaderboard' element={<Leaderboard />}/>
+              <Route path='/leaderboard' element={user? <Leaderboard />: <LogIn />}/>
           </Routes>
         </BrowserRouter>
         {/* <GameBoard /> */}

@@ -10,6 +10,7 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
+
 const GameBoard = () => {
     const [dimension] = useState({
         width: 10,
@@ -33,7 +34,8 @@ const GameBoard = () => {
     const [begin, setBegin] = useState(false);
     
     const auth = firebase.auth()
-    
+    const firestore = firebase.firestore()
+
     useEffect(() => {
         if(running) {
             const timer = setInterval(() => {
@@ -70,6 +72,7 @@ const GameBoard = () => {
     useEffect(() => {
         setBoardData(boardArray())
         console.log('mounted')
+        console.log(auth.currentUser)
         setReset(false)
     }, [reset])
 
@@ -249,6 +252,7 @@ const GameBoard = () => {
             setStopTime(true);
             setWin(true);
             setFinalScore(time + 1);
+            sendScore(time)
         }
 
         console.log(count)
@@ -281,6 +285,19 @@ const GameBoard = () => {
         }
         
     }
+
+    const sendScore = async(time) => {
+        const gameScoreRef = firestore.collection('scores');
+        const { uid, displayName } = auth.currentUser;
+        // console.log(auth)
+        await gameScoreRef.add({
+            text: time,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            uid,
+            displayName
+        })
+    }
+    
 
     return(
         <div className="game-screen">
