@@ -10,6 +10,8 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
+import Window from './Window';
+import UserInfo from './UserInfo';
 
 const GameBoard = () => {
     const [dimension] = useState({
@@ -290,13 +292,15 @@ const GameBoard = () => {
         const gameScoreRef = firestore.collection('scores');
         const { uid, displayName } = auth.currentUser;
         // console.log(auth)
-        await gameScoreRef.add({
-            text: time,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            uid,
-            displayName
-        })
-    }
+        if(!auth.currentUser.isAnonymous){
+            await gameScoreRef.add({
+                text: time,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                uid,
+                displayName
+            })
+        }
+    } 
     
 
     return(
@@ -319,9 +323,16 @@ const GameBoard = () => {
                 )}
             </div>
             </div>
+            <div className="right-side">
+                {!auth.currentUser.isAnonymous &&
+                <div className='user-info'>
+                    <Window contentComponent={<UserInfo />} nameOfClass="userInfoComponent" componentTitle='User Information'/>
+                </div>}
+                <button><Link to="/leaderboard">Leaderboard</Link></button>
+                <button onClick={() => auth.signOut()}>Log out</button>
 
-            <button><Link to="/leaderboard">Leaderboard</Link></button>
-            <button onClick={() => auth.signOut()}>Log out</button>
+            </div>
+            
         </div>
         
         

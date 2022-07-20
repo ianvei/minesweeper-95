@@ -16,8 +16,15 @@ function LogIn() {
         auth.signInWithPopup(provider);
     }
 
+    const signInAnon = () => {
+        auth.signInAnonymously();
+    }
+
     return (
-        <button onClick={signInWithGoogle}>Sign in with google</button>
+        <div className='login-buttons'>
+            <button onClick={signInWithGoogle}>Sign in with google</button>
+            <button onClick={signInAnon}>Sign in as Guest</button>
+        </div>
     )
 }
 

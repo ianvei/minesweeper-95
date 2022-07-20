@@ -8,6 +8,8 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
+import UserInfo from './UserInfo';
+import BestScores from './BestScores';
 
 const Leaderboard = ( ) => {
 
@@ -19,8 +21,16 @@ const Leaderboard = ( ) => {
 
     return (
         <div className='leaderboard'>
-            <Window contentComponent={<ExampleContent />} nameOfClass="leaderboardcont" componentTitle='Leaderboard'/>
-            <button><Link to="/">Back to Game</Link></button>
+            <div className='leaderboard-left'>
+                <Window contentComponent={<ExampleContent />} nameOfClass="leaderboardcont" componentTitle='Leaderboard'/>
+                <button><Link to="/">Back to Game</Link></button>
+            </div>
+            
+            {!auth.currentUser.isAnonymous &&
+                <div className='user-info leaderboard-user'>
+                    <Window contentComponent={<UserInfo />} nameOfClass="userInfoComponent" componentTitle='User Information'/>
+                    <Window contentComponent={<BestScores />} nameOfClass="userInfoComponent" componentTitle='User Information'/>
+                </div>}
         </div>
     )
 }
