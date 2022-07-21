@@ -328,8 +328,11 @@ const GameBoard = () => {
                 <div className='user-info'>
                     <Window contentComponent={<UserInfo />} nameOfClass="userInfoComponent" componentTitle='User Information'/>
                 </div>}
-                <button><Link to="/leaderboard">Leaderboard</Link></button>
-                <button onClick={() => auth.signOut()}>Log out</button>
+                <div className='main-buttons'>
+                    <Link to="/leaderboard"><button>Leaderboard</button></Link>
+                    <button onClick={() => auth.signOut()}>{!auth.currentUser.isAnonymous? 'Log out' : 'Log In'}</button>
+                </div>
+                
 
             </div>
             

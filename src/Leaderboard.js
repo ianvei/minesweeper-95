@@ -10,26 +10,32 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import UserInfo from './UserInfo';
 import BestScores from './BestScores';
+import { getDocs } from 'firebase/firestore'
+
 
 const Leaderboard = ( ) => {
+
+   
 
     const auth = firebase.auth()
     const firestore = firebase.firestore()
     const gameScoreRef = firestore.collection('scores');
-    const query = gameScoreRef.orderBy('createdAt').limit(25);
+    const query = gameScoreRef.orderBy('text')
     const [scores] = useCollectionData(query, {idField: 'id'});
 
+
+   
     return (
         <div className='leaderboard'>
             <div className='leaderboard-left'>
                 <Window contentComponent={<ExampleContent />} nameOfClass="leaderboardcont" componentTitle='Leaderboard'/>
-                <button><Link to="/">Back to Game</Link></button>
+                <Link to="/"><button>Back to Game</button></Link>
             </div>
             
             {!auth.currentUser.isAnonymous &&
                 <div className='user-info leaderboard-user'>
                     <Window contentComponent={<UserInfo />} nameOfClass="userInfoComponent" componentTitle='User Information'/>
-                    <Window contentComponent={<BestScores />} nameOfClass="userInfoComponent" componentTitle='User Information'/>
+                    <Window contentComponent={<BestScores scores={scores}/>} nameOfClass="your-times" componentTitle='Best Times'/>
                 </div>}
         </div>
     )

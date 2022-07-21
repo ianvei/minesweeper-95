@@ -15,15 +15,20 @@ const ExampleContent = ( ) => {
     const gameScoreRef = firestore.collection('scores');
     const query = gameScoreRef.orderBy('text').limit(10);
     const [scores] = useCollectionData(query, {idField: 'id'});
+    
 
     return (
         <>
         
-           <h1>Top 10 Scores</h1>
+           <h1>Global top 10 Times</h1>
             {/* {console.log(scores)} */}
-            {scores && scores.map(score => {
+            {scores && scores.map((score, index) => {
                     console.log(scores);
-                    return(<p key={score.createdAt.seconds}>{score.displayName} {score.text}</p>)
+                    return(<div>
+                        {console.log(index)}
+                        <p key={score.createdAt.seconds}>{score.displayName} - {score.text} Seconds</p>
+                        {index < 9? <hr />: ''}
+                        </div>)
                 })}
         
             

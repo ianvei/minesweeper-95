@@ -22,7 +22,8 @@ function LogIn() {
 
     return (
         <div className='login-buttons'>
-            <button onClick={signInWithGoogle}>Sign in with google</button>
+            <button className='google-signin' onClick={signInWithGoogle}>Sign in with google</button>
+            <h1>or</h1>
             <button onClick={signInAnon}>Sign in as Guest</button>
         </div>
     )
