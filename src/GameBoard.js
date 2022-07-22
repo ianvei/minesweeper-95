@@ -12,6 +12,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import Window from './Window';
 import UserInfo from './UserInfo';
+import arrowImg from './images/arrow.png'
 
 const GameBoard = () => {
     const [dimension] = useState({
@@ -329,8 +330,8 @@ const GameBoard = () => {
                     <Window contentComponent={<UserInfo />} nameOfClass="userInfoComponent" componentTitle='User Information'/>
                 </div>}
                 <div className='main-buttons'>
-                    <Link to="/leaderboard"><button>Leaderboard</button></Link>
-                    <button onClick={() => auth.signOut()}>{!auth.currentUser.isAnonymous? 'Log out' : 'Log In'}</button>
+                    <Link to="/leaderboard"><button className='leaderboardButton'>Leaderboard <img src={arrowImg}/></button></Link>
+                    <button onClick={() => auth.signOut()} className="logButton">{!auth.currentUser.isAnonymous? 'Log Out' : 'Log In'}</button>
                 </div>
                 
 

@@ -9,7 +9,11 @@ function UserInfo() {
 const auth = firebase.auth()
   return (
     <div className='user-content'>
-        <p>Welcome: {auth.currentUser.displayName}</p>
+        <div>
+        <p className='userWelcome'>Welcome:</p>
+        <p className='userUserName'>{auth.currentUser.displayName}</p>
+        </div>
+        
         <img src={auth.currentUser.photoURL} alt="" />
     </div>
   )

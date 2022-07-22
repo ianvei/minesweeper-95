@@ -11,6 +11,7 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 import UserInfo from './UserInfo';
 import BestScores from './BestScores';
 import { getDocs } from 'firebase/firestore'
+import arrowImg from './images/arrow.png'
 
 
 const Leaderboard = ( ) => {
@@ -29,7 +30,7 @@ const Leaderboard = ( ) => {
         <div className='leaderboard'>
             <div className='leaderboard-left'>
                 <Window contentComponent={<ExampleContent />} nameOfClass="leaderboardcont" componentTitle='Leaderboard'/>
-                <Link to="/"><button>Back to Game</button></Link>
+                <Link to="/"><button class='backToGameBtn'><img src={arrowImg}/>Back to Game </button></Link>
             </div>
             
             {!auth.currentUser.isAnonymous &&

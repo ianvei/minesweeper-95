@@ -209,7 +209,7 @@ code {
     background: #C3C3C3;
     box-shadow: inset 2px 2px 0px #f0f0f0;
     width: 100vw;
-    height: 6.5vh;
+    /* height: 6.5vh; */
 }
 
 .start-button {
@@ -227,6 +227,8 @@ code {
   align-items: center;
   justify-content: space-between;
   padding: 0px 10px;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
 
 .start-button > p {
@@ -431,6 +433,125 @@ button {
   align-items: center;
   gap: 20px;
   padding-top: 20px;
+}
+
+
+.main-buttons > button:hover, a > button:hover {
+  background: #C3C3C3;
+  box-shadow: none;
+  border: 1px dashed #000000;
+}
+
+.login-buttons > button:hover {
+  background: #C3C3C3;
+  box-shadow: none;
+  border: 1px dashed #000000;
+}
+
+.backToGameBtn, .leaderboardButton {
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+  gap: 10px;
+  padding-right: 20px;
+}
+
+.backToGameBtn > img {
+  transform: rotate(180deg);
+}
+
+.leaderboardButton {
+  padding-right: 0;
+}
+
+.logButton {
+  width: 80px;
+  font-size: 18px;
+}
+
+.leaderboardInfo {
+  display: flex;
+  
+}
+
+.leaderboardInfo > h3 {
+  border-bottom: 1px solid black;
+  font-size: 20px;
+}
+
+.rank {
+  width: 50px;
+}
+
+p.rank {
+  padding-left: 15px;
+  font-weight: bold;
+}
+
+.username {
+  width: 200px;
+}
+
+.leaderboardScore {
+  width: 200px;
+}
+
+.date {
+  width: 150px;
+}
+
+.leaderboardEntry {
+  display: flex;
+  height: 25px;
+}
+
+.leaderboardEntry > p {
+  margin: 0px;
+  font-size: 20px;
+}
+
+.leaderboardContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.leaderboardContent > hr {
+  width: 100%;
+  margin: 0;
+}
+
+.leaderboardMain {
+  display: grid;
+  gap: 16px;
+}
+
+.window-main > h1 {
+  margin-bottom: 1px;
+}
+
+.user-content > div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.user-content > div > p {
+  margin: 0;
+}
+
+.userWelcome {
+  padding-top: 5px;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.userUserName {
+  font-size: 25px;
 }
 
 /* .main-buttons > button,a {

@@ -13,6 +13,7 @@ import 'firebase/compat/auth';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
+import { getFirestore } from 'firebase/firestore';
 
 
 // Your web app's Firebase configuration

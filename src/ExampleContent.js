@@ -21,15 +21,50 @@ const ExampleContent = ( ) => {
         <>
         
            <h1>Global top 10 Times</h1>
+           <div className='leaderboardInfo'>
+                <h3 className='rank'>Rank</h3>
+                <h3 className='username'>Username</h3>
+                <h3 className='leaderboardScore'>Score</h3>
+                <h3 className='date'>Date</h3>
+
+           </div>
             {/* {console.log(scores)} */}
+            <div className='leaderboardMain'>
             {scores && scores.map((score, index) => {
+                function removeFirstWord(str) {
+                    const indexOfSpace = str.indexOf(' ');
+                  
+                    if (indexOfSpace === -1) {
+                      return '';
+                    }
+                  
+                    return str.substring(indexOfSpace + 1);
+                  }
                     console.log(scores);
-                    return(<div>
+                    let time = {
+                        seconds: score.createdAt.seconds,
+                        nanoseconds: score.createdAt.nanoseconds,
+                      }
+                      
+                      const fireBaseTime = new Date(
+                        time.seconds * 1000 + time.nanoseconds / 1000000,
+                      );
+                      const date = fireBaseTime.toDateString();
+                      const atTime = fireBaseTime.toLocaleTimeString();
+                    return(<div className='leaderboardContent'>
                         {console.log(index)}
-                        <p key={score.createdAt.seconds}>{score.displayName} - {score.text} Seconds</p>
+                        <div className='leaderboardEntry'>
+                            <p className='rank'>{index + 1}</p>
+                            <p key={score.uid} className='username'>{score.displayName}</p>
+                            <p className='leaderboardScore' key={score.createdAt.seconds}>{score.text} Seconds</p>
+                            {console.log (score)}
+                            <p className='date'>{removeFirstWord(date)}</p>
+                        </div>
                         {index < 9? <hr />: ''}
                         </div>)
                 })}
+            </div>
+            
         
             
         </>

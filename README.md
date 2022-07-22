@@ -1,7 +1,7 @@
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
+<a href="https://www.flaticon.com/free-icons/user-interface" title="user interface icons">User interface icons created by frelayasia - Flaticon</a>
 ## Available Scripts
 
 In the project directory, you can run:
